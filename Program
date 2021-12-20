@@ -1,0 +1,107 @@
+import sqlite3
+
+from customerDataAcess import CustomerDataAccess
+from ProjectCustomer import Customer
+
+CustomerDataAccess('db.sqlite')
+connection = sqlite3.connect('db.sqlite')
+
+cur = connection.cursor()
+
+options = 1
+
+def print_all_customers(cur):
+    cur.execute(f"SELECT * FROM customer")
+    for row in cur:
+        print(row)
+
+def insert_customer(cur, customer):
+    cur.execute(f"insert into customer (id, fname, lname, address, mobile) values ({id}, {fname}, {lname}, {address}"\
+                f",{mobile}")
+
+
+def delete_customer(cur, id):
+    cur.execute(f"delete from customer where id={id} ")
+    connection.commit()
+
+
+def get_all_customers(cur):
+    cur.execute(f"select * from customer")
+    cursor = cur
+    customer = None
+    for row in cursor:
+        print(row)
+        customer = customer(row[0], row[1], row[2], row[3])
+        return customer
+
+def get_all_customers_by_id(cur, id):
+    return cur.execute(f"select * from customer where id={id}")
+
+def update_customer(cur, given_id, updated_customer_details):
+    cur.execute(f"update customer set (id, fname, lname, address, mobile) values ({updated_customer_details.id}," \
+     f"'{updated_customer_details.fname}', '{updated_customer_details.lname}', '{updated_customer_details.address}',{updated_customer_details.mobile} ) where id={given_id};")
+    connection.commit()
+
+
+print('1. Get all customers')
+print('2. Get customer by id')
+print('3. Insert customer')
+print('4. Delete customer')
+print('5. Update customer')
+print('6. Exit')
+
+
+received_option = int(input('Your choice: '))
+
+
+
+if received_option == 1:
+    cur.execute("select * from customer")
+    for row in cur:
+        print(row)
+
+
+if received_option == 2:
+    given_id = int(input('Customer ID: '))
+    selected_customer = get_all_customers_by_id(cur, given_id).fetchall()
+    if len(selected_customer) < 1:
+        print(f'Customer with ID: {given_id}, does not exist!')
+    else:
+        print(selected_customer)
+    #had trouble with the functions went for an alternative
+
+if received_option == 3:
+    id = int(input('Insert customer ID: '))
+    fname = str((input('Insert customer first name: ')))
+    lname = str((input('Insert customer last name: ')))
+    address = str((input('Insert customer address: ')))
+    mobile = int(input('Insert customer mobile number: '))
+    inserted_customer = Customer(id, fname, lname, address, mobile)
+
+    cur.execute(f"insert into customer (id, fname, lname, address, mobile) values ({id},"\
+                f"'{fname}', '{lname}', '{address}', {mobile})")
+    connection.commit()
+
+
+
+if received_option == 4:
+    id = int(input('Insert customer ID that you want to delete: '))
+    #cur.execute(f"select * from customer where id={id}")
+    cur.execute(f"delete  from customer where id={id}")
+    print('Customer deleted successfully!')
+
+    connection.commit()
+
+if received_option == 5:
+    given_id = int(input('ID of the customer you want to update: '))
+    id = int(input('Insert customer new ID: '))
+    fname = str((input('Insert customer new first name: ')))
+    lname = str((input('Insert customer new last name: ')))
+    address = str((input('Insert customer new address: ')))
+    mobile = int(input('Insert customer mobile new number: '))
+    #updated_customer_details = Customer(id, fname, lname, address, mobile)
+    #customer_after_update = update_customer(cur, given_id, updated_customer_details)
+    cur.execute(f"update customer set id= {id}, fname= '{fname}', lname= '{lname}', address= '{address}', mobile= {mobile} where id={given_id}")
+    connection.commit()
+    selected_customer = get_all_customers_by_id(cur, given_id).fetchall()
+    print(selected_customer)
