@@ -1,0 +1,52 @@
+import sqlite3
+
+from ProjectCustomer import Customer
+Customer = Customer
+
+class CustomerDataAccess:
+
+    def __init__(self, file_path):
+        self.cur = sqlite3.connect(file_path).cursor()
+        #con = sqlite3.connect(file_path)
+        #self.cur = con.cursor()
+
+        #Not sure which is more correct to use
+
+    def print_all_customers(self, cur):
+        self.cur.execute("select * from customers")
+        for row in cur:
+            print(row)
+
+    def insert_customer(self, customer):
+
+         self.cur.execute(f"insert into customer (id, fname, lname, address, mobile) values ({customer.id},"
+        f"{customer.fname}, {customer.lname},{customer.address}, {customer.mobile}")
+
+        # Not sure which one is more correct to use
+
+    def delete_customer(self, id):
+        self.cur.execute(f"delete from customer where id={id} ")
+
+    def get_all_customers(self):
+        self.cur.execute("select * from customer")
+        customer = None
+        for row in self.cur:
+            customer = customer(row[0], row[1], row[2], row[3])
+            return customer
+
+    def get_all_customers_by_id(self, id):
+        self.cur.execute(f"select * from customer where id={id}")
+        return self.cur
+
+    def update_customer(cur, id, customer):
+        cur.execute(f"update customer set (id={Customer.id},fname={Customer.fname}, lname={Customer.lname}" \
+                    f" address={Customer.address}, mobile={Customer.mobile}) where id={id}")
+
+
+    def __str__(self):
+        return f'Customer ID: {self.id}, first name: {self.fname}, Last name: {self.lname}, Address: {self.address}, Mobile:' \
+               f'{self.mobile}'
+
+    def __repr__(self):
+        return f'Customer ID: {self.id}, first name: {self.fname}, Last name: {self.lname}, Address: {self.address}, Mobile:' \
+               f'{self.mobile}'
