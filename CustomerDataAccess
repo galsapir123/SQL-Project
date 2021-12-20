@@ -38,7 +38,7 @@ class CustomerDataAccess:
         self.cur.execute(f"select * from customer where id={id}")
         return self.cur
 
-    def update_customer(cur, id, customer):
+    def update_customer(self, cur, id, customer):
         cur.execute(f"update customer set (id={Customer.id},fname={Customer.fname}, lname={Customer.lname}" \
                     f" address={Customer.address}, mobile={Customer.mobile}) where id={id}")
 
