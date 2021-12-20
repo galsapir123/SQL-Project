@@ -1,0 +1,26 @@
+import sqlite3
+
+
+
+connection = sqlite3.connect('db.sqlite')
+
+cur = connection.cursor()
+
+
+class Customer:
+
+    def __init__(self, id, fname, lname, address, mobile):
+        self.id = id
+        self.fname = fname
+        self.lname = lname
+        self.address = address
+        self.mobile = mobile
+
+
+    def __str__(self):
+        return f'Customer ID: {self.id}, first name: {self.fname}, Last name: {self.lname}, Address: {self.address}, Mobile:' \
+               f'{self.mobile}'
+
+    def __repr__(self):
+        return f'Customer ID: {self.id}, first name: {self.fname}, Last name: {self.lname}, Address: {self.address}, Mobile:' \
+               f'{self.mobile}'
